@@ -65,10 +65,3 @@ export default class Store {
     giveSpecific(player, item);
   }
 }
-
-/*
-    >> create variable
-    >> create the onChange
-    >> the checkboxes should update the master question variable
-    >> if all checkboxes are unchecked then reset the question variable to null
-*/

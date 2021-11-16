@@ -78,9 +78,24 @@ export default class Trail {
           //update calamity owner
         };
       case "river":
-        return () => {
-          console.log(FgCyan, "river");
-          //roll to see if you lose cargo
+        return (met) => {
+          let { message } = met
+          const roll = Roll()
+          if (roll % 2 == 0) {
+            message = "pass without issue"
+          } else {
+            const availableItems = []
+            for (const key in this.owner.inventory) {
+              const element = this.owner.inventory[key];
+              if (element > 0) {
+                availableItems.push(`${key}`)
+              }
+            }
+            const lostItem = availableItems[Math.floor(Math.random() * availableItems.length)]
+            this.owner.subtract(lostItem)
+            message = `${lostItem} was lost`
+          }
+          return { ...met, message }
         };
       case "deadlyRiver":
         return () => {
@@ -115,8 +130,19 @@ export default class Trail {
         res = "R";
         break;
 
-      default:
+      case "M":
         res = "M";
+        break;
+
+      case "F":
+        res = "F";
+        break;
+
+      case "T":
+        res = "T";
+        break;
+
+      default:
         break;
     }
     return res;

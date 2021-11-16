@@ -11,7 +11,7 @@ const isValidCard = (card, rotated, met) => {
       trail.push(card);
     }
     player.trailDeck = player.trailDeck.filter((deck) => card.id !== deck.id);
-    card.complication();
+    met = card.complication(met);
     if (card.type == "calamity") {
       calamityDeck.drawCalamity(player, wagon);
     }
@@ -30,7 +30,7 @@ const isValidCard = (card, rotated, met) => {
         player.trailDeck = player.trailDeck.filter(
           (deck) => card.id !== deck.id
         );
-        card.complication();
+        met = card.complication(met);
         if (card.type == "calamity") {
           calamityDeck.drawCalamity(player, wagon);
         }
@@ -50,7 +50,7 @@ const isValidCard = (card, rotated, met) => {
         player.trailDeck = player.trailDeck.filter(
           (deck) => card.id !== deck.id
         );
-        card.complication();
+        met = card.complication(met);
         if (card.type == "calamity") {
           calamityDeck.drawCalamity(player, wagon);
         }
@@ -70,7 +70,7 @@ const isValidCard = (card, rotated, met) => {
         player.trailDeck = player.trailDeck.filter(
           (deck) => card.id !== deck.id
         );
-        card.complication();
+        met = card.complication(met);
         if (card.type == "calamity") {
           calamityDeck.drawCalamity(player, wagon);
         }
@@ -89,7 +89,7 @@ const isValidCard = (card, rotated, met) => {
         player.trailDeck = player.trailDeck.filter(
           (deck) => card.id !== deck.id
         );
-        card.complication();
+        met = card.complication(met);
         if (card.type == "calamity") {
           calamityDeck.drawCalamity(player, wagon);
         }

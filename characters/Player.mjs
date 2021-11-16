@@ -13,6 +13,7 @@ export default class Player {
     this.supplyGives = 1;
     this.trailDeck = [];
   }
+
   add(item) {
     this.inventory[item] += 1;
   }

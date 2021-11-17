@@ -1,5 +1,13 @@
 const isValidCard = (card, rotated, met) => {
-  let { trail, calamityDeck, wagon, player, displayedTrail, message } = met;
+  let {
+    trail,
+    trailDeck,
+    calamityDeck,
+    wagon,
+    player,
+    displayedTrail,
+    message,
+  } = met;
   let valid = trail.length;
   if (trail.length == 0) {
     if (rotated) {
@@ -100,14 +108,17 @@ const isValidCard = (card, rotated, met) => {
     }
   }
 
-  return {
-    ...met,
-    trail,
-    calamityDeck,
-    wagon,
-    player,
-    displayedTrail,
-    message,
-  };
+  return new Promise((resolve, reject) => {
+    resolve({
+      ...met,
+      trail,
+      calamityDeck,
+      wagon,
+      player,
+      displayedTrail,
+      message,
+      trailDeck,
+    });
+  });
 };
 export default isValidCard;

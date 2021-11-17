@@ -3,6 +3,7 @@ import Player from "./Player";
 describe("class Player()", () => {
   const player1 = new Player();
   const player2 = new Player();
+  const store = new Player();
 
   it("Player1 should be init with all methods", () => {
     expect(player1.alive).toBe(true);
@@ -60,6 +61,15 @@ describe("class Player()", () => {
     expect(player1.alive).toBe(false);
   });
   it("pick()", () => {});
-  it("give()", () => {});
+  it("give()", () => {
+    player1.add("bullets");
+    player1.add("bullets");
+    player1.add("bullets");
+    player1.give(player2, "bullets");
+    player1.give(store, "bullets");
+    expect(player1.inventory.bullets).toBe(1);
+    expect(player2.inventory.bullets).toBe(1);
+    expect(store.inventory.bullets).toBe(1);
+  });
   it("will()", () => {});
 });

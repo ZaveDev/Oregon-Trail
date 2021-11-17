@@ -109,7 +109,7 @@ const isValidCard = (card, rotated, met) => {
   }
 
   return new Promise((resolve, reject) => {
-    resolve({
+    met = {
       ...met,
       trail,
       calamityDeck,
@@ -118,7 +118,8 @@ const isValidCard = (card, rotated, met) => {
       displayedTrail,
       message,
       trailDeck,
-    });
+    };
+    resolve(met);
   });
 };
 export default isValidCard;

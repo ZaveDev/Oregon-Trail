@@ -36,22 +36,68 @@ export default class Player {
     //will()
   }
   pick(met) {
-    console.log("Player, pick items");
+    let { message, store } = met;
+    let inventoryList = [];
+
+    for (const key in this.inventory) {
+      const element = this.inventory[key];
+      if (element > 0) {
+        inventoryList.push(key);
+      }
+    }
     return new Promise((resolve, reject) => {
       prompt({
         type: "list",
         name: "action",
         message: "what to do",
-        choices: [1, 2, 3, 4],
+        choices: [...inventoryList, "[Back]"],
       }).then(({ action }) => {
-        resolve(met);
+        if (action == "[Back]") {
+          reject(met);
+        } else {
+          let item1 = action;
+          this.subtract(item1);
+          inventoryList = [];
+          for (const key in this.inventory) {
+            const element = this.inventory[key];
+            if (element > 0) {
+              inventoryList.push(key);
+            }
+          }
+          prompt({
+            type: "list",
+            name: "action",
+            message: "what to do",
+            choices: [...inventoryList, "[Back]"],
+          }).then(({ action }) => {
+            if (action == "[Back]") {
+              this.add(item1);
+              reject(met);
+            } else {
+              let item2 = action;
+              this.subtract(item2);
+              store
+                .trade(met, item1, item2)
+                .then(({ met, item }) => {
+                  message = `you gave 1 ${item1} and 1 ${item2} and received 1 ${item}`;
+                  this.add(item);
+                  met = { ...met, message, store };
+                  resolve(met);
+                })
+                .catch((met) => {
+                  this.add(item1);
+                  this.add(item2);
+                  reject(met);
+                });
+            }
+          });
+        }
       });
     });
   }
   give(construct, item) {
-    console.log(`I gave ${construct} a ${item}`);
-
-    //construct.add(item)
+    this.subtract(item);
+    construct.add(item);
   }
   will(player) {
     let item1 = this.pick();

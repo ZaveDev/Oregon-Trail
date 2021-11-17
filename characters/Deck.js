@@ -1,4 +1,4 @@
-import s from "../mechanics/shuffle.mjs";
+import s from "../mechanics/shuffle.js";
 
 export default class Deck {
   constructor(deck) {
@@ -12,14 +12,16 @@ export default class Deck {
     return card;
   }
   drawCalamity = (player, wagon) => {
-    let oops = this.draw();
+    let oops = this.list.shift();
     oops.updateOwner(player, wagon);
     oops.effect();
+    return oops;
   };
   shuffle() {
     this.list = s(this.list);
   }
   reshuffle() {
     this.list = s([...this.origin]);
+    this.shuffle();
   }
 }

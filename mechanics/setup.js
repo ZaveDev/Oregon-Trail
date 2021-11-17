@@ -1,4 +1,4 @@
-import generateDecks from "./generate.mjs";
+import generateDecks from "./generate.js";
 
 export default function setup(mode) {
   const options = {

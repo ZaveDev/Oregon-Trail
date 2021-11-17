@@ -1,5 +1,18 @@
 {
+  "type": "module",
   "dependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/register": "^7.7.4",
+    "babel-jest": "^27.3.1",
     "inquirer": "^8.2.0"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
+  },
+  "scripts": {
+    "test": "jest --watch",
+    "start": "node ./main.js"
   }
 }

@@ -1,4 +1,4 @@
-import Roll from "./Roll.mjs";
+import Roll from "./Roll.js";
 const FgRed = "\x1b[31m%s\x1b[0m";
 const FgGreen = "\x1b[32m%s\x1b[0m";
 export default class Calamity {

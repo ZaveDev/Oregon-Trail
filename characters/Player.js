@@ -1,3 +1,6 @@
+import inquirer from "inquirer";
+const prompt = inquirer.createPromptModule();
+
 export default class Player {
   constructor() {
     this.alive = true;
@@ -32,11 +35,22 @@ export default class Player {
     this.alive = false;
     //will()
   }
-  pick() {
-    console.log("Player, pick a items item");
+  pick(met) {
+    console.log("Player, pick items");
+    return new Promise((resolve, reject) => {
+      prompt({
+        type: "list",
+        name: "action",
+        message: "what to do",
+        choices: [1, 2, 3, 4],
+      }).then(({ action }) => {
+        resolve(met);
+      });
+    });
   }
   give(construct, item) {
     console.log(`I gave ${construct} a ${item}`);
+
     //construct.add(item)
   }
   will(player) {

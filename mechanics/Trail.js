@@ -1,4 +1,4 @@
-import Roll from "./Roll.mjs";
+import Roll from "./Roll.js";
 const FgCyan = "\x1b[36m%s\x1b[0m";
 export default class Trail {
   constructor(entry, exit, type) {
@@ -79,23 +79,24 @@ export default class Trail {
         };
       case "river":
         return (met) => {
-          let { message } = met
-          const roll = Roll()
+          let { message } = met;
+          const roll = Roll();
           if (roll % 2 == 0) {
-            message = "pass without issue"
+            message = "pass without issue";
           } else {
-            const availableItems = []
+            const availableItems = [];
             for (const key in this.owner.inventory) {
               const element = this.owner.inventory[key];
               if (element > 0) {
-                availableItems.push(`${key}`)
+                availableItems.push(`${key}`);
               }
             }
-            const lostItem = availableItems[Math.floor(Math.random() * availableItems.length)]
-            this.owner.subtract(lostItem)
-            message = `${lostItem} was lost`
+            const lostItem =
+              availableItems[Math.floor(Math.random() * availableItems.length)];
+            this.owner.subtract(lostItem);
+            message = `${lostItem} was lost`;
           }
-          return { ...met, message }
+          return { ...met, message };
         };
       case "deadlyRiver":
         return () => {

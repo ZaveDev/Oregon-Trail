@@ -1,6 +1,6 @@
-import Calamity from "./Calamity.mjs";
-import shuffle from "./shuffle.mjs";
-import Trail from "./Trail.mjs";
+import Calamity from "./Calamity.js";
+import shuffle from "./shuffle.js";
+import Trail from "./Trail.js";
 
 const generateDecks = (options) => {
   const generateTrail = ({ trailCount, trailOptions, trailDeck }) => {

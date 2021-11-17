@@ -1,8 +1,6 @@
-import { createRequire } from "module";
-import isValidCard from "./mechanics/isValidCard.mjs";
-const require = createRequire(import.meta.url);
+import isValidCard from "./mechanics/isValidCard.js";
+import inquirer from "inquirer";
 
-const inquirer = require("inquirer");
 const prompt = inquirer.createPromptModule();
 
 const FgRed = "\x1b[31m%s\x1b[0m";
@@ -43,16 +41,18 @@ const summonCalamityHUD = (met) => {
   const calamityList = [];
   const exportList = wagon.calamity;
   const exportTypeList = [];
-  const exportRemedyList = [];
+  const exportRemedyList = {};
 
   for (let i = 0; i < wagon.calamity.length; i++) {
     const cCard = wagon.calamity[i];
     let remedy = "";
+    const remedyArr = [];
     for (const key in cCard.remedy) {
       const value = cCard.remedy[key];
       remedy += `${key}: ${value} `;
-      exportRemedyList.push(`${key}: ${value}`);
+      remedyArr.push(`${key}: ${value}`);
     }
+    exportRemedyList[cCard.type] = remedyArr;
     exportTypeList.push(`${cCard.type}`);
     calamityList.push(`${cCard.type} => Remedied by: ${remedy}`);
   }
@@ -107,12 +107,12 @@ const selectTrail = (met, rotated = false) => {
 
   if (rotated) {
     player.trailDeck.forEach((card) => {
-      picsAndDetails.push(`${card.rotatedTrailPic}`);
+      picsAndDetails.push(`[${card.rotatedTrailPic}]`);
     });
     picsAndDetails;
   } else {
     player.trailDeck.forEach((card) => {
-      picsAndDetails.push(`${card.trailPic}`);
+      picsAndDetails.push(`[${card.trailPic}]`);
     });
   }
   prompt({
@@ -123,30 +123,26 @@ const selectTrail = (met, rotated = false) => {
   }).then(({ action }) => {
     if (action == "[Back]") {
       loop(met);
+    } else if (action == "[Rotate]") {
+      console.clear();
+      summonHUD(met);
+      selectTrail(met, !rotated);
     } else {
       let selection;
-      if (action == "[Rotate]") {
-        console.clear();
-        summonHUD(met);
-        selectTrail(met, !rotated);
+      if (rotated) {
+        player.trailDeck.forEach((card) => {
+          if (`[${card.rotatedTrailPic}]` == action) {
+            selection = card;
+          }
+        });
       } else {
-        if (rotated) {
-          player.trailDeck.forEach((card) => {
-            if (card.rotatedTrailPic == action) {
-              selection = card;
-            }
-          });
-        } else {
-          player.trailDeck.forEach((card) => {
-            if (card.trailPic == action) {
-              selection = card;
-            }
-          });
-        }
-        met = isValidCard(selection, rotated, met);
-
-        loop(met);
+        player.trailDeck.forEach((card) => {
+          if (`[${card.trailPic}]` == action) {
+            selection = card;
+          }
+        });
       }
+      isValidCard(selection, rotated, met).then((res) => loop(res));
     }
   });
 };
@@ -170,7 +166,7 @@ const remedyCalamity = (met) => {
         type: "list",
         name: "action",
         message: "which what item used to remedy this Calamity?",
-        choices: [...list.exportRemedyList, "[Back]"],
+        choices: [...list.exportRemedyList[type], "[Back]"],
       }).then(({ action }) => {
         if (action == "[Back]") {
           loop(met);
@@ -190,10 +186,9 @@ const remedyCalamity = (met) => {
             wagon.removeCalamity(type);
           }
           message = action.message;
+          met = { ...met, wagon, message };
+          loop(met);
         }
-
-        met = { ...met, wagon, message };
-        loop(met);
       });
     }
   });
@@ -210,19 +205,32 @@ const draw = (met) => {
     if (action == "Yes") {
       player.addToDeck(trailDeck.draw(player));
     }
+
     met = { ...met, trailDeck, player, message: "card added" };
     loop(met);
   });
 };
 
 const trade = (met) => {
+  const { player } = met;
   prompt({
     type: "list",
     name: "action",
     message: "which which items?",
-    choices: ["[Back]"],
+    choices: ["[Pick]", "[Back]"],
   }).then(({ action }) => {
-    loop(met);
+    switch (action) {
+      case "[Pick]":
+        player.pick(met).then((res) => loop(res));
+        break;
+
+      case "[Back]":
+        loop(met);
+        break;
+
+      default:
+        break;
+    }
   });
 };
 

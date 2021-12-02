@@ -1,3 +1,6 @@
+import inquirer from "inquirer";
+const prompt = inquirer.createPromptModule();
+
 export default class Store {
   constructor() {
     this.bullets = 2;
@@ -61,7 +64,38 @@ export default class Store {
       this.select();
     }
   }
-  trade(player, item1, item2) {
-    giveSpecific(player, item);
+  trade(met, item1, item2) {
+    this.add(item1);
+    this.add(item2);
+    const inventoryList = [];
+    if (this.bullets > 0) inventoryList.push("bullets");
+    if (this.clothes > 0) inventoryList.push("clothes");
+    if (this.food > 0) inventoryList.push("food");
+    if (this.water > 0) inventoryList.push("water");
+    if (this.oxen > 0) inventoryList.push("oxen");
+    if (this.spare_parts > 0) inventoryList.push("spare_parts");
+    if (this.meds > 0) inventoryList.push("meds");
+    return new Promise((resolve, reject) => {
+      prompt({
+        type: "list",
+        name: "action",
+        message: `Store inventroy
+    bullets-------${this.bullets}
+    clothes-------${this.clothes}
+    food----------${this.food}
+    water---------${this.water}
+    oxen----------${this.oxen}
+    spare_parts---${this.spare_parts}
+    meds----------${this.meds}`,
+        choices: [...inventoryList, "[Back]"],
+      }).then(({ action }) => {
+        if (action == "[Back]") {
+          reject(met);
+        } else {
+          let item = action;
+          resolve({ met, item });
+        }
+      });
+    });
   }
 }

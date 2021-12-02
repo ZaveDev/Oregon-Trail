@@ -2,8 +2,8 @@ import Store from "./characters/Store.js";
 import Player from "./characters/Player.js";
 import Wagon from "./characters/Wagon.js";
 import setup from "./mechanics/setup.js";
-import loop from "./userInput.js";
 import Deck from "./characters/Deck.js";
+import loop from "./userInput.js";
 // const rounds = {
 //     turns,
 //     roundcount,

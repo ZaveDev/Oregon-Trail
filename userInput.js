@@ -221,7 +221,10 @@ const trade = (met) => {
   }).then(({ action }) => {
     switch (action) {
       case "[Pick]":
-        player.pick(met).then((res) => loop(res));
+        player
+          .pick(met)
+          .then((res) => loop(res))
+          .catch((res) => loop(res));
         break;
 
       case "[Back]":

@@ -70,12 +70,14 @@ export default class Trail {
   pickComplication(typeKey) {
     switch (typeKey) {
       case "calamity":
-        return () => {
-          console.log("calamity");
+        return (met) => {
+          let { message } = met;
+          message = "calamity";
           //draw from calamity deck
           //check all players
           //check wagon
           //update calamity owner
+          return { ...met, message };
         };
       case "river":
         return (met) => {
@@ -99,25 +101,35 @@ export default class Trail {
           return { ...met, message };
         };
       case "deadlyRiver":
-        return () => {
+        return (met) => {
+          let { message } = met;
           console.log("deadlyRiver");
           const roll = Roll();
           if (roll == 1) {
             this.owner.die();
           }
           console.log(roll);
+          return { ...met, message };
         };
       case "fort":
-        return () => {
-          //gain 2 random items from store
+        return (met) => {
+          let { message } = met;
+          message = "gain 2 random items from store"
+          return { ...met, message };
         };
       case "town":
-        return () => {
-          // choose to get rid of a calamity or gain one random item
+        return (met) => {
+          let { message } = met;
+          message = "choose to get rid of a calamity or gain one random item"
+          return { ...met, message };
         };
 
       default:
-        return () => console.log("you progress with no issue");
+        return (met) => {
+          let { message } = met;
+          message ="you progress with no issue";
+          return { ...met, message };
+        }
     }
   }
   rotate(point) {

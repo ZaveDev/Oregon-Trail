@@ -76,8 +76,7 @@ export default class Player {
             } else {
               let item2 = action;
               this.subtract(item2);
-              store
-                .trade(met, item1, item2)
+              store.trade(met, item1, item2)
                 .then(({ met, item }) => {
                   message = `you gave 1 ${item1} and 1 ${item2} and received 1 ${item}`;
                   this.add(item);

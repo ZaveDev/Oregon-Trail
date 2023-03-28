@@ -19,12 +19,15 @@ met =========>>   trail: [],
                 };
 */
 const summonHUD = (met) => {
+  console.log(met.hasOwnProperty('store'))
+  console.log(met.store.hasOwnProperty('trade'))
   let { player, displayedTrail, wagon, message } = met;
   let calamityList = "";
   for (let i = 0; i < wagon.calamity.length; i++) {
     const cCard = wagon.calamity[i];
     calamityList += `${cCard.type} `;
   }
+  
 
   console.log(FgCyan, `message: ${message}`);
   console.log(displayedTrail);

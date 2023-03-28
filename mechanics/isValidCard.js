@@ -8,6 +8,7 @@ const isValidCard = (card, rotated, met) => {
     displayedTrail,
     message,
   } = met;
+  console.log(`from valid1 Store:${met.hasOwnProperty('store')} Trade:${met.store.hasOwnProperty('trade')}`)
   let valid = trail.length;
   if (trail.length == 0) {
     if (rotated) {
@@ -18,8 +19,10 @@ const isValidCard = (card, rotated, met) => {
       displayedTrail += card.trailPic;
       trail.push(card);
     }
+
     player.trailDeck = player.trailDeck.filter((deck) => card.id !== deck.id);
     met = card.complication(met);
+    
     if (card.type == "calamity") {
       calamityDeck.drawCalamity(player, wagon);
     }
@@ -38,7 +41,9 @@ const isValidCard = (card, rotated, met) => {
         player.trailDeck = player.trailDeck.filter(
           (deck) => card.id !== deck.id
         );
+
         met = card.complication(met);
+        
         if (card.type == "calamity") {
           calamityDeck.drawCalamity(player, wagon);
         }
@@ -58,7 +63,9 @@ const isValidCard = (card, rotated, met) => {
         player.trailDeck = player.trailDeck.filter(
           (deck) => card.id !== deck.id
         );
+        
         met = card.complication(met);
+        
         if (card.type == "calamity") {
           calamityDeck.drawCalamity(player, wagon);
         }
@@ -78,7 +85,9 @@ const isValidCard = (card, rotated, met) => {
         player.trailDeck = player.trailDeck.filter(
           (deck) => card.id !== deck.id
         );
+        
         met = card.complication(met);
+        
         if (card.type == "calamity") {
           calamityDeck.drawCalamity(player, wagon);
         }
@@ -107,7 +116,7 @@ const isValidCard = (card, rotated, met) => {
       message = "invalid card";
     }
   }
-
+  console.log(`from valid2 Store:${met.hasOwnProperty('store')} Trade:${met.store.hasOwnProperty('trade')}`)
   return new Promise((resolve, reject) => {
     met = {
       ...met,
